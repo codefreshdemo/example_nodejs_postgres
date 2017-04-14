@@ -1,0 +1,11 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:latest
+  test:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    links:
+      - postgres
+    command: bash -c 'sleep 30 && npm test'
