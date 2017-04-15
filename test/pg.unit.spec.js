@@ -1,7 +1,7 @@
 "use strict";
 
 const pg = require('pg');
-const connectionString = 'postgres://admin:admin@postgres:5432/todo';
+const connectionString = 'postgres://user:admin@postgres:5432/todo';
 
 describe('postgres test', () => {
     var client;
