@@ -1,7 +1,8 @@
 "use strict";
 
 const pg = require('pg');
-const connectionString = 'postgres://user:admin@postgres:5432/todo';
+
+const connectionString = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@postgres:5432/${process.env.POSTGRES_DB}`;
 
 describe('postgres test', () => {
     var client;

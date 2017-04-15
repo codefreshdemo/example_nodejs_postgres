@@ -3,7 +3,7 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: admin
+      POSTGRES_USER: user
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: todo
   test:

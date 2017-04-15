@@ -18,27 +18,7 @@ To compile and test our code we use Codefresh's [Freestyle step](https://docs.co
 The Freestyle step basically let's you say "Hey, Codefresh! Here's a Docker image. Create a new container and run these commands for me, will ya?"
 
 ```yml
-unit_test:
-      type: composition
-      working_directory: ${{main_clone}}
-      composition:
-          version: '2'
-          services:
-            db:
-              image: mysql:latest
-              ports:
-                - 3306
-              environment:
-                MYSQL_ROOT_PASSWORD: admin
-                MYSQL_USER: my_user
-                MYSQL_PASSWORD: admin
-                MYSQL_DATABASE: nodejs
-      composition_candidates:
-          test:
-            image: ${{build_step}}
-            links:
-              - db
-            command: bash -c 'sleep 30 && MYSQL_ROOT_PASSWORD=admin MYSQL_USER=my_user MYSQL_HOST=db MYSQL_PASSWORD=admin MYSQL_DATABASE=nodejs npm test'
+
 ```
 
 The `image` field states which image should be used when creating the container (Similar to Travis CI's `language` or circleci`s `machine`).
