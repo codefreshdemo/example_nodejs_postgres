@@ -1,13 +1,17 @@
 "use strict";
 
 const pg = require('pg');
-const connectionString = process.env.DATABASE_URL || 'postgres://postgres:5432/todo';
+const connectionString = 'postgres://admin:admin@postgres:5432/todo';
 
 describe('postgres test', () => {
     var client;
 
     before(() => {
         client = new pg.Client(connectionString);
+    });
+
+    after(()=>{
+        client.end();
     });
 
     it('test connection', (done) => {
