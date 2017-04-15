@@ -12,4 +12,4 @@ services:
       dockerfile: Dockerfile
     links:
       - postgres
-    command: bash -c 'sleep 30 && POSTGRES_USER=user && POSTGRES_PASSWORD=admin && POSTGRES_DB=todo && npm test'
+    command: bash -c 'sleep 30 && POSTGRES_USER=user POSTGRES_PASSWORD=admin POSTGRES_DB=todo npm test'
