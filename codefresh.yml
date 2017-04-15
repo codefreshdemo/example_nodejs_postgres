@@ -15,12 +15,16 @@ steps:
         postgres:
           image: postgres:latest
           environment:
-            - POSTGRES_USER=user
-            - POSTGRES_PASSWORD=admin
-            - POSTGRES_DB=todo
+            - POSTGRES_USER=$POSTGRES_USER
+            - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            - POSTGRES_DB=$POSTGRES_DB
     composition_candidates:
       test:
         image: ${{build_step}}
         links:
           - postgres
-        command: bash -c 'sleep 30 && POSTGRES_USER=user POSTGRES_PASSWORD=admin POSTGRES_DB=todo npm test'
+        command: bash -c '/usr/src/app/test-script.sh'
+    composition_variables:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=todo
