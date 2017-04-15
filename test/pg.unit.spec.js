@@ -1,13 +1,16 @@
 "use strict";
 
-const pg = require('pg');
+var pg = require('pg');
 
-const connectionString = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@postgres:5432/${process.env.POSTGRES_DB}`;
+var connectionString = `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@postgres:5432/${process.env.POSTGRES_DB}`;
 
 describe('postgres test', () => {
     var client;
 
     before(() => {
+        console.log("POSTGRES_USER="+process.env.POSTGRES_USER);
+        console.log("POSTGRES_PASSWORD="+process.env.POSTGRES_PASSWORD);
+        console.log("POSTGRES_DB="+process.env.POSTGRES_DB);
         client = new pg.Client(connectionString);
     });
 
