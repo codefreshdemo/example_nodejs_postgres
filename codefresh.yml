@@ -14,6 +14,10 @@ steps:
         services:
           postgres:
             image: postgres:latest
+            environment:
+              POSTGRES_USER: admin
+              POSTGRES_PASSWORD: admin
+              POSTGRES_DB: todo
       composition_candidates:
         test:
           image: ${{build_step}}
