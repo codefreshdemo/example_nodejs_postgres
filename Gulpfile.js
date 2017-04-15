@@ -23,18 +23,14 @@ gulp.task('lint', ['clean'], function () {
 });
 
 gulp.task('set_unit_env_vars', function () {
-    var MYSQL_ROOT_PASSWORD = process.env.MYSQL_ROOT_PASSWORD;
-    var MYSQL_USER = process.env.MYSQL_USER;
-    var MYSQL_HOST = process.env.MYSQL_HOST;
-    var MYSQL_PASSWORD = process.env.MYSQL_PASSWORD;
-    var MYSQL_DATABASE = process.env.MYSQL_DATABASE;
+    var POSTGRES_USER = process.env.POSTGRES_USER;
+    var POSTGRES_PASSWORD = process.env.POSTGRES_PASSWORD;
+    var POSTGRES_DB = process.env.POSTGRES_DB;
     env({
         vars: {
-            MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD,
-            MYSQL_USER: MYSQL_USER,
-            MYSQL_PASSWORD: MYSQL_PASSWORD,
-            MYSQL_DATABASE: MYSQL_DATABASE,
-            MYSQL_HOST: MYSQL_HOST
+            POSTGRES_USER: POSTGRES_USER,
+            POSTGRES_PASSWORD: POSTGRES_PASSWORD,
+            POSTGRES_DB: POSTGRES_DB
         }
     });
 });
