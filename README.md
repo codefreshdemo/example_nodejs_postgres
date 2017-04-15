@@ -4,7 +4,7 @@ So, you've decided to try Codefresh? Welcome on board!
 
 Using this repository we'll help you get up to speed with basic functionality such as: *compiling*, *testing* and *building Docker images*.
 
-This project uses `Node Js` to build an application which will eventually become a distributable Docker image.
+This project uses `Node Js, Postgres` to build an application which will eventually become a distributable Docker image.
 
 ## Looking around
 
@@ -13,12 +13,37 @@ Let's quickly review the contents of this file:
 
 ### Compiling and testing
 
-To compile and test our code we use Codefresh's [Freestyle step](https://docs.codefresh.io/docs/steps#section-freestyle).
+To compile and test our code we use Codefresh's [Freestyle step](https://docs.codefresh.io/docs/freestyle).
 
 The Freestyle step basically let's you say "Hey, Codefresh! Here's a Docker image. Create a new container and run these commands for me, will ya?"
 
 ```yml
-
+  unit_test:
+    type: composition
+    working_directory: ${{main_clone}}
+    composition:
+      version: '2'
+      services:
+        postgres:
+          image: postgres:latest
+          environment:
+            - POSTGRES_USER=$POSTGRES_USER
+            - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+            - POSTGRES_DB=$POSTGRES_DB
+    composition_candidates:
+      test:
+        image: ${{build_step}}
+        links:
+          - postgres
+        command: bash -c '/usr/src/app/test-script.sh'
+        environment:
+          - POSTGRES_USER=$POSTGRES_USER
+          - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+          - POSTGRES_DB=$POSTGRES_DB
+    composition_variables:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=todo
 ```
 
 The `image` field states which image should be used when creating the container (Similar to Travis CI's `language` or circleci`s `machine`).
@@ -32,11 +57,11 @@ To bake our application into a Docker image we use Codefresh's [Build step](http
 The Build is a simplified abstraction over the Docker build command.
 
 ```yml
-build_step:
-      type: build
-      image_name: codefreshio/yaml-example-unit-test-compose
-      dockerfile: Dockerfile
-      tag: ${{CF_BRANCH}}
+  build_step:
+    type: build
+    image_name: codefreshio/example-nodejs-postgress
+    dockerfile: Dockerfile
+    tag: ${{CF_BRANCH}}
 ```
 
 Use the `image_name` field to declare the name of the resulting image (don't forget to change the image owner name from `codefreshdemo` to your own!).
