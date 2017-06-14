@@ -14,7 +14,7 @@ describe('postgres test', () => {
         client = new pg.Client(connectionString);
     });
 
-    after(()=>{
+    after(() => {
         client.end();
     });
 
@@ -26,7 +26,7 @@ describe('postgres test', () => {
     });
 
 
-    it('insert data', ()=>{
+    it('insert data', () => {
         pg.connect(connectionString, (err, client, done) => {
             // Handle connection errors
             if(err) {
