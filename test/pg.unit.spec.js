@@ -43,6 +43,7 @@ describe('postgres test', () => {
         const query = client.query("SELECT * FROM items");
         // Stream results back one row at a time
         query.on('row', (row) => {
+            done();
             console.log(row);
         });
         // After all data is returned, close connection and return results
