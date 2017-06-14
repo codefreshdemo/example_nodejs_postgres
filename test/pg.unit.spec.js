@@ -43,12 +43,11 @@ describe('postgres test', () => {
         const query = client.query("SELECT * FROM items");
         // Stream results back one row at a time
         query.on('row', (row) => {
-            results.push(row);
+            console.log(row);
         });
         // After all data is returned, close connection and return results
         query.on('end', function() {
-            done();
-            return res.json(results);
+            client.end();
         });
     });
 });
