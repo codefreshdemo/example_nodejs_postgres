@@ -16,7 +16,7 @@ steps:
         postgres:
           image: postgres:latest
           volumes:
-            - ${{CF_VOLUME_PATH}}:/var/lib/postgresql
+            - ${{CF_VOLUME_PATH}}/data:/var/lib/postgresql/data
           environment:
             - POSTGRES_USER=$POSTGRES_USER
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
