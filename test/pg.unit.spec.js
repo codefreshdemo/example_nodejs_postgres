@@ -41,11 +41,13 @@ describe('postgres test', () => {
         client.query('INSERT INTO items(text, complete) values($1, $2)', ['test', true]);
         // SQL Query > Select Data
         const query = client.query("SELECT * FROM items");
-        // Stream results back one row at a time
-        query.on('row', (row) => {
-            done();
-            console.log(row);
+        pg.exec(query, function (table) {
+            console.log('Result table:', table);
         });
+        // Stream results back one row at a time
+        // query.on('row', (row) => {
+        //     console.log(row);
+        // });
         // After all data is returned, close connection and return results
         query.on('end', function() {
             client.end();
