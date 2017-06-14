@@ -27,7 +27,6 @@ describe('postgres test', () => {
 
 
     it('insert data', ()=>{
-        const results = [];
         pg.connect(connectionString, (err, client, done) => {
             // Handle connection errors
             if(err) {
