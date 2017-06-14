@@ -35,11 +35,20 @@ describe('postgres test', () => {
         query.on('end', () => { client.end(); });
     });
 
-    it('select all items', () => {
-        const query = client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public' AND table_type='BASE TABLE';");
+
+    it('insert data', ()=>{
+        // SQL Query > Update Data
+        client.query('INSERT INTO items(text, complete) values($1, $2)', ['test', true]);
+        // SQL Query > Select Data
+        const query = client.query("SELECT * FROM items");
+        // Stream results back one row at a time
         query.on('row', (row) => {
-            console.log(row);
+            results.push(row);
         });
-        query.on('end', () => { client.end(); });
+        // After all data is returned, close connection and return results
+        query.on('end', function() {
+            done();
+            return res.json(results);
+        });
     });
 });
