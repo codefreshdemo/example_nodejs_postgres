@@ -38,19 +38,34 @@ describe('postgres test', () => {
 
     it('insert data', ()=>{
         // SQL Query > Update Data
-        client.query('INSERT INTO items(text, complete) values($1, $2)', ['test', true]);
-        // SQL Query > Select Data
-        const query = client.query("SELECT * FROM items");
-        pg.exec(query, function (table) {
-            console.log('Result table:', table);
-        });
-        // Stream results back one row at a time
-        // query.on('row', (row) => {
-        //     console.log(row);
+        // client.query('INSERT INTO items(text, complete) values($1, $2)', ['test', true]);
+        // // SQL Query > Select Data
+        // const query = client.query("SELECT * FROM items");
+        // pg.exec(query, function (table) {
+        //     console.log('Result table:', table);
         // });
-        // After all data is returned, close connection and return results
-        query.on('end', function() {
-            client.end();
+        const results = [];
+        pg.connect(connectionString, (err, client, done) => {
+            // Handle connection errors
+            if(err) {
+                done();
+                console.log(err);
+                return;
+            }
+            // SQL Query > Insert Data
+            client.query('INSERT INTO items(text, complete) values($1, $2)', ['test', true]);
+            // SQL Query > Select Data
+            const query = client.query('SELECT * FROM items');
+            // Stream results back one row at a time
+            query.on('row', (row) => {
+                results.push(row);
+                console.log("res:" + row);
+            });
+            // After all data is returned, close connection and return results
+            query.on('end', () => {
+                console.log("results:" + results[0]);
+                client.end();
+            });
         });
     });
 });
