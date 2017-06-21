@@ -16,13 +16,13 @@ steps:
         postgres:
           image: postgres:latest
           volumes:
-            - postgres-data:/var/lib/postgresql/data
+            - ${{CF_VOLUME_PATH}}/db:/var/lib/postgresql/data
           environment:
             - POSTGRES_USER=$POSTGRES_USER
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
             - POSTGRES_DB=$POSTGRES_DB
       volumes:
-        postgres-data:
+        ${{CF_VOLUME_PATH}}/db:
           driver: local
     composition_candidates:
       test:
