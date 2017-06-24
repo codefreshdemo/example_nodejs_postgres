@@ -17,7 +17,7 @@ steps:
           image: "microsoft/mssql-server-linux:latest"
           environment:
            - ACCEPT_EULA=Y
-           - SA_PASSWORD=$SQL_PWD
+           - SA_PASSWORD=${SQL_PWD}
           ports:
            - "1433:1433"
         postgres:
