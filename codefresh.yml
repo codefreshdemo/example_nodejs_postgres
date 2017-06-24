@@ -12,6 +12,14 @@ steps:
     composition:
       version: '2'
       services:
+        sqlserver:
+          container_name: "orders.sqlserver"
+          image: "microsoft/mssql-server-linux:latest"
+          environment:
+           - ACCEPT_EULA=Y
+           - SA_PASSWORD=${SQL_PWD}
+          ports:
+           - "1433:1433"
         postgres:
           container_name: database
           image: postgres:latest
@@ -35,3 +43,4 @@ steps:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=todo
+      - SQL_PWD=test
