@@ -44,4 +44,4 @@ steps:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=todo
-      - SQL_PWD=test
+      - SQL_PWD=testtest12
