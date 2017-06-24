@@ -26,6 +26,7 @@ steps:
         image: ${{build_step}}
         links:
           - postgres
+        container_name: workspace
         command: bash -c '/usr/src/app/test-script.sh'
         environment:
           - POSTGRES_USER=$POSTGRES_USER
