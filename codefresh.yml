@@ -9,26 +9,7 @@ steps:
   unit_test:
     type: composition
     working_directory: ${{main_clone}}
-    composition:
-      version: '2'
-      services:
-        sqlserver:
-          container_name: "orders.sqlserver"
-          image: "microsoft/mssql-server-linux:latest"
-          environment:
-           - ACCEPT_EULA=Y
-           - SA_PASSWORD=${SQL_PWD}
-          ports:
-           - "1433:1433"
-        postgres:
-          container_name: database
-          image: postgres:latest
-          volumes:
-            - ${{CF_VOLUME_PATH}}/db:/var/lib/postgresql/data
-          environment:
-            - POSTGRES_USER=$POSTGRES_USER
-            - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-            - POSTGRES_DB=$POSTGRES_DB
+    composition: ./docker-compose.yml
     composition_candidates:
       test:
         image: ${{build_step}}
@@ -40,6 +21,7 @@ steps:
           - POSTGRES_USER=$POSTGRES_USER
           - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
           - POSTGRES_DB=$POSTGRES_DB
+          - SQL_PWD=${{SQL_PWD}}
     composition_variables:
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=admin
