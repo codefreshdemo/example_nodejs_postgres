@@ -33,6 +33,7 @@ steps:
       test:
         image: ${{build_step}}
         links:
+          - sqlserver
           - postgres
         command: bash -c '/usr/src/app/test-script.sh'
         environment:
