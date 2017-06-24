@@ -6,7 +6,6 @@ steps:
     dockerfile: Dockerfile
     tag: ${{CF_BRANCH}}
 
-
   unit_test:
     type: composition
     working_directory: ${{main_clone}}
@@ -14,6 +13,7 @@ steps:
       version: '2'
       services:
         postgres:
+          container_name: database
           image: postgres:latest
           volumes:
             - ${{CF_VOLUME_PATH}}/db:/var/lib/postgresql/data
