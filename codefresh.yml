@@ -16,14 +16,13 @@ steps:
           container_name: database
           image: postgres:latest
           volumes:
-            - ${{CF_VOLUME}}/db:/var/lib/postgresql/data
+            - ${{CF_VOLUME}}:/var/lib/postgresql/data
           environment:
             - POSTGRES_USER=$POSTGRES_USER
             - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
             - POSTGRES_DB=$POSTGRES_DB
       volumes:
-        ${{CF_VOLUME}}/db:
-          external: true
+        ${{CF_VOLUME}}:
 
     composition_candidates:
       test:
