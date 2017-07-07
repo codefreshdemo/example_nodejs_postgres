@@ -13,7 +13,6 @@ steps:
       version: '2'
       services:
         postgres:
-          container_name: database
           image: postgres:latest
           ports:
             - 5432
