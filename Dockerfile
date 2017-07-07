@@ -4,15 +4,20 @@ RUN apt-get update
 RUN apt-get install -y netcat
 RUN apt-get install -y dnsutils
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /dataset/psql
+WORKDIR /dataset
 
 ARG NODE_ENV
 ENV NODE_ENV $NODE_ENV
-COPY package.json /usr/src/app/
+COPY package.json /dataset
 RUN npm install
 RUN npm install -g gulp
 
-COPY . /usr/src/app
+COPY . ./
 
-RUN chmod +x /usr/src/app/test-script.sh
+RUN cp -r ./data/* /dataset/psql
+
+RUN pwd
+RUN ls /dataset/psql
+
+RUN chmod +x /dataset/test-script.sh

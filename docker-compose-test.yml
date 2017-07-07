@@ -5,7 +5,8 @@ services:
     ports:
       - 5432
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - db-test:/var/lib/postgresql/data
+    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -14,11 +15,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    volumes:
+      - db-test:/dataset/psql
     links:
       - postgres
-    command: bash -c '/usr/src/app/test-script.sh'
+    command: bash -c '/dataset/test-script.sh'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=my_db
       - POSTGRES_HOST=postgres
+volumes:
+  db-test:
