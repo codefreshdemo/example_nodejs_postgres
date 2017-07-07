@@ -8,3 +8,7 @@ sudo /etc/init.d/postgresql restart
 
 # create db
 sudo -u postgres createdb my_db
+
+# show data_directory
+sudo -u postgres psql
+> SHOW data_directory;
