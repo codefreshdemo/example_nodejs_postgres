@@ -6,11 +6,11 @@ services:
       - 5432
     volumes:
       - db-test:/var/lib/postgresql/data
-    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=my_db
+      - PGDATA=/var/lib/postgresql/data/pgdata
   test:
     build:
       context: .
