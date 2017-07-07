@@ -43,7 +43,7 @@ gulp.task('unit_pre', function () {
         }))
         .pipe(istanbul.hookRequire()) // Force `require` to return covered files
         .on('finish', function () {
-            gulp.src(['**/*.unit.spec.js', '!**/node_modules/**/*.js'], {read: false})
+            gulp.src(['**/init.js', '!**/node_modules/**/*.js'], {read: false})
                 .pipe(mocha({reporter: 'spec', timeout: '10000'}))
                 .pipe(istanbul.writeReports({
                     reporters: ['lcov'],
@@ -52,6 +52,18 @@ gulp.task('unit_pre', function () {
                 .once('end', function () {
                     process.exit();
                 });
+        });
+});
+
+gulp.task('unit_test', function () {
+    return gulp.src(['**/init.js', '!**/node_modules/**/*.js'], {read: false})
+        .pipe(mocha({reporter: 'spec', timeout: '10000'}))
+        .pipe(istanbul.writeReports({
+            reporters: ['lcov'],
+            reportOpts: {dir: 'coverage'}
+        }))
+        .once('end', function () {
+            process.exit();
         });
 });
 
