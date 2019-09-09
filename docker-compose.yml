@@ -1,7 +1,7 @@
 version: '2'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:11.5
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: admin
