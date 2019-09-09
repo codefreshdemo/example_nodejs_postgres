@@ -1,34 +1,41 @@
-version: '1.0'
+version: "1.0"
+stages:
+  - prepare
+  - build
+  - test
 steps:
-  build_step:
-    type: build
-    image_name: codefreshio/example-nodejs-postgress
-    dockerfile: Dockerfile
-    tag: ${{CF_BRANCH}}
-
-  unit_test:
-    type: composition
-    working_directory: ${{main_clone}}
-    composition:
-      version: '2'
-      services:
-        postgres:
-          image: postgres:latest
-          environment:
-            - POSTGRES_USER=$POSTGRES_USER
-            - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-            - POSTGRES_DB=$POSTGRES_DB
-    composition_candidates:
-      test:
-        image: ${{build_step}}
-        links:
-          - postgres
-        command: bash -c '/usr/src/app/test-script.sh'
-        environment:
-          - POSTGRES_USER=$POSTGRES_USER
-          - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-          - POSTGRES_DB=$POSTGRES_DB
-    composition_variables:
+  main_clone:
+    type: "git-clone"
+    description: "Cloning main repository..."
+    repo: "codefreshdemo/example_nodejs_postgres"
+    revision: "master"
+    git: github
+    stage: prepare
+  run_integration_tests:
+    title: "Running integration tests"
+    stage: test
+    image: node:6.9.1
+    environment: &test_postgresql_vars
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=admin
       - POSTGRES_DB=todo
+    commands:
+      # PostgreSQL is certainly up at this point
+         - npm install -g gulp
+         - npm install
+         - npm test
+    services:
+      composition:
+        postgres:
+          image: postgres:11.5
+          ports:
+            - 5432
+          environment: *test_postgresql_vars # Same POSTGRES_USER, POSTGRES_PASSWORD etc.
+      readiness:
+        timeoutSeconds: 30
+        periodSeconds: 15
+        image: postgres:11.5
+        commands:
+          - "pg_isready -h postgres"   
+
+
